@@ -1,0 +1,42 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+
+group 'org.shmmap'
+version '0.1'
+
+compileJava.options.encoding = 'UTF-8'
+
+repositories {
+    mavenCentral()
+	jcenter()
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+
+    sourceCompatibility = 1.8
+    compileJava.options.encoding = 'UTF-8'
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    configurations {
+        // configuration that holds jars to include in the jar
+        extraLibs
+    }
+
+    dependencies {
+        //编译使用
+        compile group: 'net.openhft', name: 'chronicle-map', version: '3.17.1'
+        compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.8'
+        compile group: 'org.yaml', name: 'snakeyaml', version: '1.24'
+
+        //打包使用
+        extraLibs group: 'net.openhft', name: 'chronicle-map', version: '3.17.1'
+        extraLibs group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.8'
+        extraLibs group: 'org.yaml', name: 'snakeyaml', version: '1.24'
+    }
+}

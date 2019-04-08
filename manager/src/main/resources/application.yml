@@ -1,0 +1,24 @@
+# 支持通过${FOO}形式的语法引用环境变量
+http:
+  port: 9090
+  ip: 0.0.0.0
+  post_limit: 100M
+  max_workers: 20
+raft:
+  data_dir: ./raft/
+  election_timeout: 5 # in second
+  local_addr: ${RAFT_IP}:9091
+  rpc_timeout: 5 # in second
+  peers: ['127.0.0.1:9091']
+maps:
+  - name: test
+    location: ./test.dat
+    max_size: 10000
+    key_class: java.lang.String
+    val_class: java.lang.String
+    key_size: 10
+    val_size: 40
+    rpc_batch_size: 10
+    peers: ['127.0.0.1:9091']
+    snapshot_interval: 3600 # in second
+    ignore_update_error: false

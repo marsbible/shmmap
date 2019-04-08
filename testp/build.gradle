@@ -1,0 +1,27 @@
+group 'org.shmmap'
+version '0.1'
+
+dependencies {
+    extraLibs project(':common')
+    extraLibs group: 'info.picocli', name: 'picocli', version: '3.9.5'
+    compile group: 'org.apache.lucene', name: 'lucene-core', version: '5.2.1'
+    compile group: 'org.apache.lucene', name: 'lucene-analyzers-common', version: '5.2.1'
+    compile group: 'org.apache.solr', name: 'solr-core', version: '5.2.1'
+    compile group: 'org.apache.solr', name: 'solr-solrj', version: '5.2.1'
+    configurations.compile.extendsFrom(configurations.extraLibs)
+}
+
+jar {
+    zip64 true
+    archiveName = "testp.jar"
+
+    manifest {
+        attributes 'Main-Class': 'org.shmmap.ShmMapCmd'
+    }
+
+    from {
+        configurations.extraLibs.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
+}

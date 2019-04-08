@@ -1,0 +1,34 @@
+group 'org.shmmap'
+version '0.1'
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+    jcenter()
+}
+
+dependencies {
+    compile project(':common')
+    compile 'io.vertx:vertx-web:3.6.3'
+
+    compile( 'com.alipay.sofa:jraft-core:1.2.5')
+    compile group: 'info.picocli', name: 'picocli', version: '3.9.5'
+}
+
+
+jar {
+    zip64 true
+    archiveName = "shmmap-manager.jar"
+
+    manifest {
+        attributes 'Main-Class': 'org.shmmap.manager.MapServer'
+    }
+
+    from {
+
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
+}
